@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "majorroofhelp.com" }], "destination": "/major/:path*" },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "www.majorroofhelp.com" }], "destination": "/major/:path*" }
+  ]
+}

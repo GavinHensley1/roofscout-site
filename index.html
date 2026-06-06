@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RoofScout — Confirmed Roof Inspections, Booked & Delivered</title>
+<meta name="description" content="We use storm data and AI to find hail-damaged roofs, reach the homeowner, and book the inspection. You get a confirmed appointment — your rep just shows up.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Archivo+Expanded:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  :root{
+    --bg:#0c0e10; --panel:#14181b; --panel-2:#1b2024; --line:#2a3137; --ink:#e8eef0;
+    --muted:#7d8a90; --amber:#ffae3b; --amber-2:#ffbd5e; --hot:#ff4d3d; --cool:#4a90d9; --green:#39c46e;
+    --grid:rgba(255,255,255,0.025);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Archivo',system-ui,sans-serif;color:var(--ink);line-height:1.5;
+    background:
+      linear-gradient(var(--grid) 1px,transparent 1px) 0 0/30px 30px,
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/30px 30px,
+      radial-gradient(circle at 80% -10%,rgba(255,174,59,0.10),transparent 50%),
+      var(--bg);
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  .mono{font-family:'IBM Plex Mono',monospace}
+
+  /* nav */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;backdrop-filter:blur(8px);background:rgba(12,14,16,.7);z-index:50}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Archivo Expanded',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.5px}
+  .brand .logo{width:34px;height:34px;border:1.5px solid var(--amber);border-radius:6px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(255,174,59,.14),transparent)}
+  .brand .logo svg{width:19px;height:19px}
+  .brand span{color:var(--amber)}
+  .nav-links{display:flex;align-items:center;gap:26px}
+  .nav-links a{font-size:14px;color:var(--muted)}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{background:var(--amber);color:#1a1205;border:none;border-radius:7px;padding:11px 18px;font-family:'Archivo';font-weight:800;font-size:14px;cursor:pointer;display:inline-block;transition:.15s}
+  .btn:hover{background:var(--amber-2);transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--amber);background:var(--panel-2)}
+  @media(max-width:680px){.nav-links a:not(.btn){display:none}}
+
+  /* hero */
+  .hero{padding:80px 0 60px;text-align:center}
+  .tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);border:1px solid rgba(255,174,59,.3);border-radius:20px;padding:6px 14px;margin-bottom:26px}
+  h1{font-family:'Archivo Expanded',sans-serif;font-weight:800;font-size:clamp(34px,6vw,60px);line-height:1.02;letter-spacing:-1.5px;margin-bottom:22px}
+  h1 .hl{color:var(--amber)}
+  .sub{font-size:clamp(16px,2.2vw,20px);color:var(--muted);max-width:620px;margin:0 auto 34px}
+  .hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .hero-stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:60px;padding-top:34px;border-top:1px solid var(--line)}
+  .stat .n{font-family:'Archivo Expanded',sans-serif;font-weight:800;font-size:30px;color:var(--amber)}
+  .stat .l{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+  section{padding:64px 0}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);text-align:center;margin-bottom:12px}
+  h2{font-family:'Archivo Expanded',sans-serif;font-weight:800;font-size:clamp(26px,4vw,38px);letter-spacing:-1px;text-align:center;margin-bottom:14px}
+  .lead{color:var(--muted);text-align:center;max-width:640px;margin:0 auto 44px;font-size:16px}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;position:relative}
+  .step .num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--amber);border:1px solid rgba(255,174,59,.3);border-radius:6px;width:30px;height:30px;display:grid;place-items:center;margin-bottom:16px}
+  .step h3{font-size:17px;margin-bottom:8px}
+  .step p{font-size:14px;color:var(--muted)}
+
+  /* before/after */
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:760px;margin:0 auto}
+  @media(max-width:600px){.ba{grid-template-columns:1fr}}
+  .ba figure{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .ba .img{aspect-ratio:4/3;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);text-align:center;padding:20px;background:
+     repeating-linear-gradient(45deg,rgba(255,255,255,.02) 0 10px,transparent 10px 20px),var(--panel-2)}
+  .ba .img.after{background:repeating-linear-gradient(45deg,rgba(255,174,59,.05) 0 10px,transparent 10px 20px),var(--panel-2);color:var(--amber)}
+  .ba figcaption{padding:12px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line)}
+  .ba-note{text-align:center;color:var(--muted);font-size:12px;margin-top:18px;font-family:'IBM Plex Mono',monospace}
+
+  /* value */
+  .value{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:48px;text-align:center}
+  .value h2{margin-bottom:10px}
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:34px;text-align:left}
+  .vcell{padding:20px;border:1px solid var(--line);border-radius:10px;background:var(--panel-2)}
+  .vcell h4{font-size:15px;margin-bottom:7px;display:flex;align-items:center;gap:8px}
+  .vcell h4::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
+  .vcell p{font-size:13.5px;color:var(--muted)}
+
+  /* pricing */
+  .price-card{max-width:520px;margin:0 auto;background:var(--panel);border:1px solid var(--amber);border-radius:16px;padding:40px;text-align:center}
+  .price-card .offer{font-family:'Archivo Expanded',sans-serif;font-weight:800;font-size:28px;margin-bottom:6px}
+  .price-card .offer .hl{color:var(--amber)}
+  .price-card ul{list-style:none;margin:24px 0;text-align:left;display:inline-block}
+  .price-card li{padding:8px 0 8px 28px;position:relative;font-size:15px}
+  .price-card li::before{content:"✓";position:absolute;left:0;color:var(--amber);font-weight:800}
+
+  /* pay bill */
+  #pay{background:var(--panel-2);border:1px solid var(--line);border-radius:16px;padding:44px;text-align:center;max-width:640px;margin:0 auto}
+  #pay h2{margin-bottom:12px}
+  #pay p{color:var(--muted);margin-bottom:26px}
+
+  footer{border-top:1px solid var(--line);padding:40px 0;text-align:center;color:var(--muted);font-size:13px}
+  footer .fine{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:14px;opacity:.7;max-width:680px;margin-left:auto;margin-right:auto}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#ffae3b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v9h14v-9"/><path d="M9 19v-5h6v5"/></svg></span>
+    Roof<span>Scout</span>
+  </div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#method">The method</a>
+    <a href="#pricing">Pricing</a>
+    <a class="btn ghost" href="#pay">Pay your bill</a>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <span class="tag">Now in private beta · Roofing appointments</span>
+  <h1>Confirmed roof inspections,<br><span class="hl">booked and delivered.</span></h1>
+  <p class="sub">We reach out to hundreds of thousands of homeowners about getting a new roof, find the ones who are genuinely ready to buy, and book the inspection for you. You get a confirmed appointment on your calendar — you just show up and close.</p>
+  <div class="hero-cta">
+    <a class="btn" href="#pricing">Get appointments →</a>
+    <a class="btn ghost" href="#how">See how it works</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="n">100,000s</div><div class="l">homeowners we contact</div></div>
+    <div class="stat"><div class="n">Exclusive</div><div class="l">one buyer per booking</div></div>
+    <div class="stat"><div class="n">Private beta</div><div class="l">limited partners</div></div>
+  </div>
+</header>
+
+<section id="how" class="wrap">
+  <div class="eyebrow">The Process</div>
+  <h2>We do the hard part. You show up and close.</h2>
+  <p class="lead">Getting a homeowner to commit to a roof inspection takes an enormous amount of outreach. We do that work at scale — and hand you only the people who said yes.</p>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><h3>Massive outreach</h3><p>We reach out to hundreds of thousands of homeowners about setting up an appointment for their roof.</p></div>
+    <div class="step"><div class="num">2</div><h3>We find the ready ones</h3><p>Out of that volume we surface the homeowners who are genuinely interested in buying a new roof right now.</p></div>
+    <div class="step"><div class="num">3</div><h3>We book the appointment</h3><p>We handle the back-and-forth and set a confirmed inspection time on your calendar — your team never has to chase.</p></div>
+    <div class="step"><div class="num">4</div><h3>Delivered exclusively to you</h3><p>You get the confirmed appointment — address, time, and details — exclusive to your company. You just show up and write it.</p></div>
+  </div>
+</section>
+
+<section id="method" class="wrap">
+  <div class="eyebrow">Why these convert</div>
+  <h2>Every booking is hard-won — and ready to buy</h2>
+  <p class="lead">Behind a single confirmed appointment is a mountain of outreach. By the time a homeowner lands on your calendar, they've already raised their hand and told us they want a new roof. You're not cold-calling — you're walking into a warm, scheduled inspection.</p>
+  <div class="vgrid" style="max-width:780px;margin:0 auto;text-align:left">
+    <div class="vcell"><h4>Serious intent</h4><p>These homeowners are actively interested in purchasing a new roof — not tire-kickers.</p></div>
+    <div class="vcell"><h4>Real volume behind it</h4><p>Hundreds of thousands of touches go into finding the handful who are truly ready.</p></div>
+    <div class="vcell"><h4>Booked, not just curious</h4><p>The inspection time is set and confirmed before it ever reaches you.</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="value">
+    <div class="eyebrow">Why it's different</div>
+    <h2>We sell confirmed bookings — not leads</h2>
+    <p class="lead" style="margin-bottom:0">A lead is a phone number. A booking is a homeowner who agreed to a time. You stop chasing and start closing.</p>
+    <div class="vgrid">
+      <div class="vcell"><h4>Exclusive to you</h4><p>Every appointment goes to one buyer. Never shared, never resold.</p></div>
+      <div class="vcell"><h4>High intent</h4><p>Every homeowner has already told us they're interested in getting a new roof.</p></div>
+      <div class="vcell"><h4>Already booked</h4><p>The time is set and confirmed before it reaches you. Your rep walks into a scheduled inspection.</p></div>
+      <div class="vcell"><h4>Compliance-first</h4><p>Licensed data, consent-tracked outreach, DNC-scrubbed. Built to be defensible.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="wrap">
+  <div class="eyebrow">Pricing</div>
+  <h2>Try it free, then pay per booking</h2>
+  <p class="lead">No contracts, no retainers. You only pay for confirmed, exclusive appointments.</p>
+  <div class="price-card">
+    <div class="offer">First <span class="hl">3 appointments free</span></div>
+    <p style="color:var(--muted)">See the quality before you spend a dollar.</p>
+    <ul>
+      <li>Then $250 per confirmed appointment</li>
+      <li>Exclusive — one buyer per booking</li>
+      <li>High-intent, qualified homeowners</li>
+      <li>Full context: address, time, roof condition</li>
+      <li>Cancel anytime, no contract</li>
+    </ul>
+    <div><a class="btn" href="#pay">Start your free trial →</a></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div id="pay">
+    <div class="eyebrow">Billing</div>
+    <h2>Pay your bill</h2>
+    <p>Already a partner? Pay your invoice or manage your subscription securely through our payment portal. All payments are processed by Stripe — we never see or store your card details.</p>
+    <!-- Replace the href below with your Stripe Payment Link or Customer Portal URL -->
+    <a class="btn" href="https://buy.stripe.com/test_28EcN457C4BA47W5oIcwg00" id="pay-btn">Pay securely with Stripe →</a>
+    <p class="mono" style="font-size:11px;margin-top:18px;margin-bottom:0">Secured by Stripe · PCI-compliant</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand" style="justify-content:center;margin-bottom:8px">Roof<span>Scout</span></div>
+    <div>Storm-targeted roofing appointments · <a href="#pay" style="color:var(--amber)">Pay your bill</a> · contact@roofscoutleads.com</div>
+    <p class="fine">RoofScout provides marketing and appointment-setting services to roofing contractors. Roof condition assessments and home visualizations are AI-generated estimates and illustrations, not guarantees or photographs of completed work. All outreach uses licensed data and is conducted in compliance with applicable consent, TCPA, and CAN-SPAM regulations.</p>
+  </div>
+</footer>
+
+</body>
+</html>
